@@ -1,0 +1,85 @@
+<style>
+/*
+.wrapper {
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+    height: 500px;
+}
+
+.bar {
+    float: left;
+    width: 20%;
+    height: 80%;
+    border: 4px solid black;
+    margin: 1%;
+    transform: rotate(180deg);
+}
+
+#bar1 {
+    width: 100%;
+    height: 0px;
+    background: -webkit-linear-gradient(          #32FF0C, #0BE815, #1CFF18, #1DE80B);
+    background: -o-linear-gradient(               #32FF0C, #0BE815, #1CFF18, #105404, #1DE80B);
+    background: -moz-linear-gradient(             #32FF0C, #0BE815, #1CFF18, #105404, #1DE80B);
+    background: linear-gradient(to bottom right,  #32FF0C, #0BE815, #1CFF18, #105404, #1DE80B);
+}
+
+#bar2 {
+    width: 100%;
+    height: 0px;
+    background: -webkit-linear-gradient(          #E8D300, #0BE815, #FFE500, #E8CE00);
+    background: -o-linear-gradient(               #E8D300, #0BE815, #FFE500, #8F7D73, #E8CE00);
+    background: -moz-linear-gradient(             #E8D300, #0BE815, #FFE500, #8F7D73, #E8CE00);
+    background: linear-gradient(to bottom right,  #E8D300, #0BE815, #FFE500, #8F7D73, #E8CE00);
+}*/
+
+#myProgress {
+    width: 100%;
+    background-color: grey;
+    transform: rotate(90deg);
+}
+#myBar {
+    width: 1%;
+    height: 30px;
+    background-color: green;
+    transform: rotate(90deg);
+}
+
+
+progress[value]::-webkit-progress-value {
+  background-image:
+	   -webkit-linear-gradient(-45deg, 
+	                           transparent 33%, rgba(0, 0, 0, .1) 33%, 
+	                           rgba(0,0, 0, .1) 66%, transparent 66%),
+	   -webkit-linear-gradient(top, 
+	                           rgba(255, 255, 255, .25), 
+	                           rgba(0, 0, 0, .25)),
+	   -webkit-linear-gradient(left, #09c, #f44);
+
+    border-radius: 2px; 
+    background-size: 35px 20px, 100% 100%, 100% 100%;
+}
+</style>
+
+<progress class="progress"
+max=100
+min=0
+value=50
+/>
+<script>
+function move() {
+    var elem = document.getElementById("myBar"); 
+    var width = 1;
+    var id = setInterval(frame, 10);
+    function frame() {
+        if (width >= 100) {
+            clearInterval(id);
+        } else {
+            width++; 
+            elem.style.width = width + '%'; 
+        }
+    }
+}
+move();
+</script>

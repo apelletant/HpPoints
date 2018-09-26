@@ -1,0 +1,26 @@
+<html>
+    <head>
+    <title>Ajoute tes points</title>
+    </head>
+    <body>
+        <form action="/modifyPoint" method="POST">
+            <label for="houses">Maison</label>
+            <select name="houses">
+                {{range .}}
+                <option value="{{.HouseName}}">{{.HouseName}}</option>
+                {{end}}
+            </select>
+            <label for="points"> Points</label>
+            <select name="points">
+                    <option value="-50">-50</option>
+                    <option value="-20">-20</option>
+                    <option value="-10">-10</option>
+                    <option value="0" selected>0</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+            </select>
+            <input type="submit" value="add">
+        </form>
+    </body>
+</html>
