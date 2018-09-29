@@ -1,16 +1,15 @@
 package main
 
-//export les variables boloss
-
 import (
-	"fmt"
 	"html/template"
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
+	"github.com/yabou/HpPoints/endpoints"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -37,14 +36,35 @@ func HouseData() ([]House, error) {
 }
 
 func ModifyPoint(w http.ResponseWriter, r *http.Request) {
-	if r.Method == "POST" {
-		fmt.Println(r.Form)
+	var err error
+	var dataToAdd endpoints.AddPoints
+	if r.Method == "GET" {
+		housesData, err := HouseData()
+		if err != nil {
+			panic(err)
+		}
+		t, err := template.ParseFiles("tmplt/adminPanel.html")
+		if err != nil {
+			panic("err")
+		}
+		t.Execute(w, housesData)
+	} else {
+		r.ParseForm()
+		dataToAdd.HouseName = r.FormValue("houses")
+		dataToAdd.HousePoint, err = strconv.Atoi(r.FormValue("points"))
+		if err != nil {
+			panic(err)
+		}
+		house, err := endpoints.AddPoint(dataToAdd, db)
+		if err != nil {
+			panic(err)
+		}
+		t, err := template.ParseFiles("tmplt/pointsAdd.html")
+		if err != nil {
+			panic(err)
+		}
+		t.Execute(w, house)
 	}
-
-	fmt.Println(r.Form["houses"])
-	fmt.Println(r.Form["points"])
-	house := r.FormValue("ravenclaw")
-	fmt.Println(house)
 }
 
 //VerifiedCredential used to see if a user exist and if his login credential are correct
@@ -61,7 +81,6 @@ func VerifiedCredential(email string, pass string) error {
 	return nil
 }
 
-//Index  salut
 func Index(w http.ResponseWriter, r *http.Request) {
 	t, err := template.ParseFiles("tmplt/index.html")
 	if err != nil {
@@ -73,10 +92,13 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//AdminConnexion salut
 func AdminConnexion(w http.ResponseWriter, r *http.Request) {
 	var t *template.Template
-	var housesData []House
+	var err error
+
+	if err != nil {
+		panic(err)
+	}
 	if r.Method == "GET" {
 		t, _ := template.ParseFiles("tmplt/adminForm.html")
 		t.Execute(w, nil)
@@ -85,18 +107,15 @@ func AdminConnexion(w http.ResponseWriter, r *http.Request) {
 		err := VerifiedCredential(r.FormValue("email"), r.FormValue("password"))
 		if err != nil {
 			t, err = template.ParseFiles("tmplt/connexionError.html")
-		} else {
-			housesData, err = HouseData()
 			if err != nil {
 				panic(err)
 			}
-			t, err = template.ParseFiles("tmplt/adminPanel.html")
-		}
-		if err != nil {
-			panic(err)
-		}
-		if err := t.Execute(w, housesData); err != nil {
-			panic(err)
+			err = t.Execute(w, nil)
+			if err != nil {
+				panic(err)
+			}
+		} else {
+			http.Redirect(w, r, "/modifyPoint", 302)
 		}
 	}
 }
@@ -104,7 +123,6 @@ func AdminConnexion(w http.ResponseWriter, r *http.Request) {
 func init() {
 	var err error
 	dbPath := os.Getenv("DBPATH")
-	fmt.Println(dbPath)
 	db, err = gorm.Open("sqlite3", dbPath)
 	if err != nil {
 		panic(err)

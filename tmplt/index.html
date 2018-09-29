@@ -24,15 +24,15 @@
     background: -moz-linear-gradient(             #32FF0C, #0BE815, #1CFF18, #105404, #1DE80B);
     background: linear-gradient(to bottom right,  #32FF0C, #0BE815, #1CFF18, #105404, #1DE80B);
 }
-
-#bar2 {
+*/
+div {
     width: 100%;
     height: 0px;
     background: -webkit-linear-gradient(          #E8D300, #0BE815, #FFE500, #E8CE00);
     background: -o-linear-gradient(               #E8D300, #0BE815, #FFE500, #8F7D73, #E8CE00);
     background: -moz-linear-gradient(             #E8D300, #0BE815, #FFE500, #8F7D73, #E8CE00);
     background: linear-gradient(to bottom right,  #E8D300, #0BE815, #FFE500, #8F7D73, #E8CE00);
-}*/
+}
 
 #myProgress {
     width: 100%;
@@ -61,12 +61,8 @@ progress[value]::-webkit-progress-value {
     background-size: 35px 20px, 100% 100%, 100% 100%;
 }
 </style>
+<div id="bar2"><p>toto</p></div>
 
-<progress class="progress"
-max=100
-min=0
-value=50
-/>
 <script>
 function move() {
     var elem = document.getElementById("myBar"); 

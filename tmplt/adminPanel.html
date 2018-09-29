@@ -4,21 +4,21 @@
     </head>
     <body>
         <form action="/modifyPoint" method="POST">
-            <label for="houses">Maison</label>
-            <select name="houses">
+            <!-- <label for="houses">Maison</label> -->
+            <select id="houses" name="houses">
                 {{range .}}
-                <option value="{{.HouseName}}">{{.HouseName}}</option>
+                <option value="{{.HouseName}}" name="houses">{{.HouseName}}</option>
                 {{end}}
             </select>
-            <label for="points"> Points</label>
-            <select name="points">
-                    <option value="-50">-50</option>
-                    <option value="-20">-20</option>
-                    <option value="-10">-10</option>
-                    <option value="0" selected>0</option>
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="50">50</option>
+            <!-- <label for="points"> Points</label> -->
+            <select id="points" name="points">
+                    <option value="-50" name="points">-50</option>
+                    <option value="-20" name="points">-20</option>
+                    <option value="-10" name="points">-10</option>
+                    <option value="0" name="points" selected>0</option>
+                    <option value="10" name="points">10</option>
+                    <option value="20" name="points">20</option>
+                    <option value="50" name="points">50</option>
             </select>
             <input type="submit" value="add">
         </form>
