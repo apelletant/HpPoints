@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"time"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
@@ -39,15 +40,20 @@ func ModifyPoint(w http.ResponseWriter, r *http.Request) {
 	var err error
 	var dataToAdd endpoints.AddPoints
 	if r.Method == "GET" {
-		housesData, err := HouseData()
-		if err != nil {
-			panic(err)
+		for _, v := range r.Cookies() {
+			err := bcrypt.CompareHashAndPassword([]byte("$2a$10$TyKWWjifpB6HUhBEOm7Aq.m9Fnex/rYbHOArvbft.io07TAZ9.Ace"), []byte(v.Value))
+			if err == nil {
+				housesData, err := HouseData()
+				if err != nil {
+					panic(err)
+				}
+				t, err := template.ParseFiles("tmplt/adminPanel.html")
+				if err != nil {
+					panic("err")
+				}
+				t.Execute(w, housesData)
+			}
 		}
-		t, err := template.ParseFiles("tmplt/adminPanel.html")
-		if err != nil {
-			panic("err")
-		}
-		t.Execute(w, housesData)
 	} else {
 		r.ParseForm()
 		dataToAdd.HouseName = r.FormValue("houses")
@@ -115,6 +121,9 @@ func AdminConnexion(w http.ResponseWriter, r *http.Request) {
 				panic(err)
 			}
 		} else {
+			expiration := time.Now().Add(365 * 24 * time.Hour)
+			cookie := http.Cookie{Name: "username", Value: r.FormValue("email"), Expires: expiration}
+			http.SetCookie(w, &cookie)
 			http.Redirect(w, r, "/modifyPoint", 302)
 		}
 	}
