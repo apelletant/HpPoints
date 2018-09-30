@@ -1,0 +1,80 @@
+@import "@material/textfield/mdc-text-field";
+@import "@material/button/mdc-button";
+@import "@material/image-list/mdc-image-list";
+@import "@material/top-app-bar/mdc-top-app-bar";
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Roboto';
+  margin: 0;
+  padding-top: 0.1px; // Prevent header h1 margin from pushing body down
+}
+
+// Login page styles
+
+
+.mdc-top-app-bar {
+  background-color: #0091EA;
+}
+
+.chartWithOverlay {
+  position: relative;
+  width: 700px;
+}
+
+.overlay {
+  width: 200px;
+  height: 200px;
+  position: absolute;
+  top: 60px;  /* chartArea top  */
+  left: 180px; /* chartArea left */
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.container {
+  width: 550px;
+  height: 400px;
+  margin: 0 auto
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  width: 300px;
+  margin: auto;
+
+}
+
+.button-container button {
+  margin: 3px;
+}
+
+.username,
+.password {
+  display: block;
+  width: 300px;
+  margin: 20px auto;
+}
+
+.header {
+  text-align: center;
+}
+
+.shrine-logo {
+  padding-top: 80px;
+  fill: currentColor;
+}
+
+// Home page styles
+
+.home {
+  display: flex; // Flexbox is used to easily arrange the persistent drawer and content side-by-side
+}
