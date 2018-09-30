@@ -88,11 +88,15 @@ func VerifiedCredential(email string, pass string) error {
 }
 
 func Index(w http.ResponseWriter, r *http.Request) {
-	t, err := template.ParseFiles("tmplt/index.html")
+	house, err := endpoints.GetHouses(db)
+	if err != nil {
+		panic(err)
+	}
+	t, err := template.ParseFiles("starter/index.html")
 	if err != nil {
 		log.Print("template parsing error: ", err)
 	}
-	err = t.Execute(w, nil)
+	err = t.Execute(w, house)
 	if err != nil {
 		log.Print("template executing error: ", err)
 	}
@@ -106,7 +110,7 @@ func AdminConnexion(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 	if r.Method == "GET" {
-		t, _ := template.ParseFiles("tmplt/adminForm.html")
+		t, _ := template.ParseFiles("starter/home.html")
 		t.Execute(w, nil)
 	} else {
 		r.ParseForm()
@@ -144,5 +148,5 @@ func main() {
 	http.HandleFunc("/", Index)
 	http.HandleFunc("/admin", AdminConnexion)
 	http.HandleFunc("/modifyPoint", ModifyPoint)
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Fatal(http.ListenAndServe(":9090", nil))
 }

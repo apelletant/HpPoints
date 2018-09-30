@@ -18,31 +18,33 @@
 </head>
 
 
-<body class="login">
-
+<body style = "width: 100%; height: 100%;">
 <header class="mdc-top-app-bar mdc-top-app-bar--fixed">
     <div class="mdc-top-app-bar__row">
         <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
-            <span class="mdc-top-app-bar__title toto">Harry Ranking Points</span>
+            <span class="mdc-top-app-bar__title">Harry Ranking Points</span>
         </section>
     </div>
 </header>
 
-  <div id = "container" style = "width: 550px; height: 400px; margin: 150px auto auto;">
+  <div id = "container" style = "width: 50%; height: 100%; margin: 150px auto auto;">
   <script language = "JavaScript">
         function drawChart() {
             // Define the chart to be drawn.
             var data = new google.visualization.DataTable();
+            
             data.addColumn('string', 'HOGWARTS');
-            data.addColumn('number', 'Hufflepuff');
-            data.addColumn('number', 'Ravenclaw');
-            data.addColumn('number', 'Slytherin');
-            data.addColumn('number', 'Gryffindor');
+            {{range .}}
+            data.addColumn('number', '{{.HouseName}}');
+            {{end}}
             data.addRows([
-                ['House', 209, 352, 431, 242],
+                ['House',
+                {{range .}}
+                    {{.HousePoint}}, 
+                    {{end}}
+                ],
             ]);
-
-            var options = {legend: 'none', bars: 'vertical', colors: ['#c19636', '#2f719f', '#295528', '#8A2825'], animation: {"startup": true}};
+            var options = {legend: 'none', bars: 'vertical', colors: ['#8A2825', '#c19636', '#2f719f','#295528'], animation: {"startup": true}};
 
             // Instantiate and draw the chart.
             var chart = new google.charts.Bar(document.getElementById('container'));
